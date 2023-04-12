@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+
+<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} -%msg%n</pattern>
+		</layout>
+	</appender>
+	<!-- 文件输出日志 (文件大小策略进行文件输出，超过指定大小对文件备份) -->
+	<appender name="FILE"
+		class="ch.qos.logback.core.FileAppender">
+		<File>/opt/tuniu/logs/tomcat/app/tomcat_fbs_npc/npc-log.log</File>
+		<append>true</append>  
+    	<encoder>  
+      		<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{32} - %msg%n</pattern>  
+	    </encoder> 
+	</appender>
+	<root level="DEBUG">
+		<appender-ref ref="FILE" />
+	</root>
+</configuration>

@@ -1,0 +1,25 @@
+server:
+  port: 8081
+  context-path: /test/
+
+spring:
+  main:
+    allow-circular-references: true
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+    publisher-confirms: true
+    publisher-returns: true
+    template:
+      mandatory: true
+  thymeleaf:
+    cache: false
+    enabled: true
+    prefix: classpath:/templates/
+    suffix: .html
+  application:
+    name: rabbitmq demo project
+logging:
+  config: classpath:logback.xml
