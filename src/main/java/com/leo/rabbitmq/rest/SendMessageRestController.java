@@ -29,6 +29,20 @@ public class SendMessageRestController {
             return "send success";
         }
 
+        @RequestMapping("/sendTopic")
+        public String sendTopic(@RequestParam(name="msg") String msg,@RequestParam(name="routingKey") String routingKey) {
+            System.out.println(msg);
+            rabbitMQService.sendTopic(msg,routingKey);
+            return "send success";
+        }
+
+        @RequestMapping("/sendFanout")
+        public String sendFanout(@RequestParam(name="msg") String msg) {
+            System.out.println(msg);
+            rabbitMQService.sendFanout(msg);
+            return "send success";
+        }
+
       
         @RequestMapping("/")
         public String index() {

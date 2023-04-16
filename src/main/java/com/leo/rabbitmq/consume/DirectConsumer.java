@@ -1,5 +1,7 @@
 package com.leo.rabbitmq.consume;
 
+import java.util.concurrent.ConcurrentHashMap;
+
 import org.slf4j.Logger;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.Queue;
@@ -13,6 +15,9 @@ import com.rabbitmq.client.Channel;
 public class DirectConsumer {
     Logger logger = org.slf4j.LoggerFactory.getLogger(DirectConsumer.class);
 
+    private ConcurrentHashMap<String, Integer> map = new ConcurrentHashMap<String, Integer>();
+
+
     enum Action {
         SUCCESS, RETRY, REJECT
     }
@@ -24,15 +29,19 @@ public class DirectConsumer {
         Action action = Action.SUCCESS;
         try {
             logger.info("receive msg:{}", msg);
-            if ("bad".equals(msg)) {
+            if ("bad".equals(msg) && map.get(String.valueOf(tag)) == null) {
+                map.put(String.valueOf(tag), 1);
                 throw new IllegalArgumentException("bad msg,抛出可重回队列的异常");
+            }
+            if(map.get(String.valueOf(tag)) != null){
+                logger.info("重试次数:{}", map.get(String.valueOf(tag)));
             }
             if ("error".equals(msg)) {
                 throw new RuntimeException("error msg,抛出不可重回队列的异常");
             }
         } catch (IllegalArgumentException e) {
             logger.error("IllegalArgumentException:{}", e.getMessage());
-            action = Action.REJECT;
+            action = Action.RETRY;
         } catch (Exception e) {
             logger.error("Exception:{}", e.getMessage());
             action = Action.REJECT;
@@ -60,6 +69,7 @@ public class DirectConsumer {
     }
 
 
+
     @RabbitHandler
     @RabbitListener(queuesToDeclare = @Queue(RbConfigConstant.QUEUE_NAME2))
     public void process(String msg, Message message, Channel channel) {
@@ -67,8 +77,12 @@ public class DirectConsumer {
         Action action = Action.SUCCESS;
         try {
             logger.info("receive msg:{}", msg);
-            if ("bad".equals(msg)) {
+            if ("bad".equals(msg) && map.get(String.valueOf(tag)) == null) {
+                map.put(String.valueOf(tag), 1);
                 throw new IllegalArgumentException("bad msg,抛出可重回队列的异常");
+            }
+            if(map.get(String.valueOf(tag)) != null){
+                logger.info("重试次数:{}", map.get(String.valueOf(tag)));
             }
             if ("error".equals(msg)) {
                 throw new RuntimeException("error msg,抛出不可重回队列的异常");
