@@ -1,4 +1,4 @@
-package com.leo.rabbitmq.demo;
+package com.leo.rabbitmq;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;

@@ -53,6 +53,7 @@ public class DirectRbConfig implements BeanPostProcessor{
     @Bean
     public Exchange rabbitmqDemoDirectExchange() {
         Exchange exchange = new DirectExchange(RbConfigConstant.EXCHANGE_NAME, true, false);
+        //set vhost to /demo
         rabbitAdmin.declareExchange(exchange);
         return exchange;
     }

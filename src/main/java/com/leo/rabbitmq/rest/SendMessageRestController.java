@@ -1,4 +1,4 @@
-package com.leo.rabbitmq.demo;
+package com.leo.rabbitmq.rest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +29,7 @@ public class SendMessageRestController {
             return "send success";
         }
 
-
+      
         @RequestMapping("/")
         public String index() {
             logger.info("index");
