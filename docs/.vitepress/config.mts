@@ -49,5 +49,5 @@ export default defineConfig({
       { icon: 'github', link: 'https://github.com/tuniucorp' }
     ]
   },
-  base: '/docs/'
+  base: '/rabbitmq-demo/docs/'
 })
